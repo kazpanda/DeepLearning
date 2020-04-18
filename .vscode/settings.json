@@ -1,0 +1,11 @@
+{
+<<<<<<< HEAD
+    "python.pythonPath": "C:\\Users\\3902454\\.conda\\envs\\LSTM_Test\\python.exe",
+=======
+    "python.pythonPath": "/Users/kazpanda/opt/anaconda3/envs/FX_Evaluation/bin/python",
+>>>>>>> e5f53f783fb3d55f72261820dc178c7e24cdb13d
+    "python.linting.flake8Enabled": false,
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "python.formatting.provider": "yapf"
+}
