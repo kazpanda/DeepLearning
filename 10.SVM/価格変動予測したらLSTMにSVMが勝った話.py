@@ -18,11 +18,12 @@ bitcoin_market_info = pd.read_csv('../00.data/GBPJPY_day_api.csv')
 #df.index = pd.to_datetime(df.index)
 #bitcoin_market_info = bitcoin_market_info.drop(["day","time"],axis=1)
 bitcoin_market_info = bitcoin_market_info.drop(["time"],axis=1)
+bitcoin_market_info =bitcoin_market_info.reset_index()
 datasize=bitcoin_market_info.shape[0]
 
-bitcoin_market_info.head()
+#bitcoin_market_info.head()
 
-bitcoin_market_info.info()
+#bitcoin_market_info.info()
 
 
 
@@ -36,8 +37,20 @@ f=lambda x: 2 if x>0.01 else 0 if x<-0.01 else 1 if -0.01<=x<=0.01 else np.nan
 def seikei(df):
     random.shuffle([i for i in range(datasize-wide-2)])#RNNでは学習する順番によっても結果が変わってくるので、順番をバラバラにできるよう準備しておきます
     shuffle_index = []
-    test_index=shuffle_index[:datasize//3]
-    train_index=shuffle_index[datasize//3:]
+    test_index=[]
+    train_index=[]
+
+#    shuffle_index = range(:datasize//3)
+#    shuffle_index = range(datasize//3:)
+    n_samples = datasize # データの個数
+    n_train   = n_samples // 2 # 半分のデータを学習
+    n_test    = n_samples - n_train # テストデータ数
+ 
+    test_index = range(0, n_train)
+    train_index = range(n_train, n_samples)
+
+#    test_index=shuffle_index[:datasize//3]
+#    train_index=shuffle_index[datasize//3:]
     
     df_train_list=[]
     df_test_list=[]
@@ -47,8 +60,9 @@ def seikei(df):
     
     #正解ラベルの作成
     #close_diff=df.loc[:,"Close**"].pct_change(-1).map(f).rename(columns={'Close**': 'diff'})[0:datasize-wide-2]
-    close_diff=df.loc[:,"close"].pct_change(-1).map(f).rename(columns={'close': 'diff'})[0:datasize-wide-2]
-    
+    #close_diff=df.loc[:,"close"].pct_change(-1).map(f).rename(columns={'close': 'diff'})[0:datasize-wide-2]
+    close_diff=df.loc[:,"close"]
+
     y_train=close_diff[train_index]
     y_test=close_diff[test_index]
     
